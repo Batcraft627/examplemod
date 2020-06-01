@@ -20,6 +20,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tk.batcraft627.examplemod.examplemod.blocks.FirstBlock;
 import tk.batcraft627.examplemod.examplemod.blocks.ModBlocks;
+import tk.batcraft627.examplemod.examplemod.items.FirstItem;
 import tk.batcraft627.examplemod.examplemod.setup.ClientProxy;
 import tk.batcraft627.examplemod.examplemod.setup.IProxy;
 import tk.batcraft627.examplemod.examplemod.setup.ModSetup;
@@ -61,6 +62,7 @@ public class Examplemod {
             Item.Properties properties = new Item.Properties()
                     .group(setup.itemGroup);
             event.getRegistry().register(new BlockItem(ModBlocks.FIRSTBLOCK,properties).setRegistryName("firstblock"));
+            event.getRegistry().register(new FirstItem());
         }
     }
 }
