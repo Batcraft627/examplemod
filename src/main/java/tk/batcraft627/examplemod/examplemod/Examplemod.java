@@ -22,6 +22,7 @@ import tk.batcraft627.examplemod.examplemod.blocks.FirstBlock;
 import tk.batcraft627.examplemod.examplemod.blocks.ModBlocks;
 import tk.batcraft627.examplemod.examplemod.setup.ClientProxy;
 import tk.batcraft627.examplemod.examplemod.setup.IProxy;
+import tk.batcraft627.examplemod.examplemod.setup.ModSetup;
 import tk.batcraft627.examplemod.examplemod.setup.ServerProxy;
 
 import java.util.stream.Collectors;
@@ -33,6 +34,8 @@ public class Examplemod {
 
     public static final IProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
 
+    public static ModSetup setup = new ModSetup();
+
     private static final Logger LOGGER = LogManager.getLogger();
 
     public Examplemod() {
@@ -41,7 +44,8 @@ public class Examplemod {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-
+    setup.init();
+    proxy.init();
     }
     // You can use EventBusSubscriber to automatically subscribe events on the contained class
     // (this is subscribing to the MOD
@@ -54,7 +58,9 @@ public class Examplemod {
         }
         @SubscribeEvent
         public static void onItemsRegistry(final RegistryEvent.Register<Item> event) {
-            event.getRegistry().register(new BlockItem(ModBlocks.FIRSTBLOCK,new Item.Properties()).setRegistryName("firstblock"));
+            Item.Properties properties = new Item.Properties()
+                    .group(setup.itemGroup);
+            event.getRegistry().register(new BlockItem(ModBlocks.FIRSTBLOCK,properties).setRegistryName("firstblock"));
         }
     }
 }
