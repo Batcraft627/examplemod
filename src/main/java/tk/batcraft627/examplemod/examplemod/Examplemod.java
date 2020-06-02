@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -25,6 +26,7 @@ import tk.batcraft627.examplemod.examplemod.setup.ClientProxy;
 import tk.batcraft627.examplemod.examplemod.setup.IProxy;
 import tk.batcraft627.examplemod.examplemod.setup.ModSetup;
 import tk.batcraft627.examplemod.examplemod.setup.ServerProxy;
+import tk.batcraft627.examplemod.examplemod.tileEntity.FirstBlockTile;
 
 import java.util.stream.Collectors;
 
@@ -63,6 +65,12 @@ public class Examplemod {
                     .group(setup.itemGroup);
             event.getRegistry().register(new BlockItem(ModBlocks.FIRSTBLOCK,properties).setRegistryName("firstblock"));
             event.getRegistry().register(new FirstItem());
+        }
+
+        @SubscribeEvent
+        public static void onTilEntityRegistry(final RegistryEvent.Register<TileEntityType<?>> event){
+            event.getRegistry().register(TileEntityType.Builder.create(FirstBlockTile:: new,ModBlocks.FIRSTBLOCK).build(null)
+            .setRegistryName("firstblock"));
         }
     }
 }
