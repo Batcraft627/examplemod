@@ -2,10 +2,13 @@ package tk.batcraft627.examplemod.examplemod;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -19,6 +22,7 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import tk.batcraft627.examplemod.examplemod.Containers.FirstBlockContainer;
 import tk.batcraft627.examplemod.examplemod.blocks.FirstBlock;
 import tk.batcraft627.examplemod.examplemod.blocks.ModBlocks;
 import tk.batcraft627.examplemod.examplemod.items.FirstItem;
@@ -34,6 +38,8 @@ import java.util.stream.Collectors;
 @Mod("examplemod")
 
 public class Examplemod {
+
+    public static final String MODID = "examplemod";
 
     public static final IProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
 
@@ -71,6 +77,14 @@ public class Examplemod {
         public static void onTilEntityRegistry(final RegistryEvent.Register<TileEntityType<?>> event){
             event.getRegistry().register(TileEntityType.Builder.create(FirstBlockTile:: new,ModBlocks.FIRSTBLOCK).build(null)
             .setRegistryName("firstblock"));
+        }
+
+        @SubscribeEvent
+        public static void onContainerRegistry(final RegistryEvent.Register<ContainerType<?>> event){
+            event.getRegistry().register(IForgeContainerType.create((windowId, inv, data) -> {
+                BlockPos pos = data.readBlockPos();
+               return new FirstBlockContainer(windowId,Examplemod.proxy.getClientWorld(),pos,inv,Examplemod.proxy.getClientPlayer());
+            }).setRegistryName("firstblock"));
         }
     }
 }
