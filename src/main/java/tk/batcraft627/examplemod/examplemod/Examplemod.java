@@ -39,12 +39,10 @@ import java.util.stream.Collectors;
 
 public class Examplemod {
 
+    //These are variables
     public static final String MODID = "examplemod";
-
     public static final IProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
-
     public static ModSetup setup = new ModSetup();
-
     private static final Logger LOGGER = LogManager.getLogger();
 
     public Examplemod() {
@@ -66,6 +64,7 @@ public class Examplemod {
             event.getRegistry().register(new FirstBlock());
         }
         @SubscribeEvent
+        //Registers the items that I have made
         public static void onItemsRegistry(final RegistryEvent.Register<Item> event) {
             Item.Properties properties = new Item.Properties()
                     .group(setup.itemGroup);
@@ -74,12 +73,14 @@ public class Examplemod {
         }
 
         @SubscribeEvent
+        //Registers the block as a tile entity
         public static void onTilEntityRegistry(final RegistryEvent.Register<TileEntityType<?>> event){
             event.getRegistry().register(TileEntityType.Builder.create(FirstBlockTile:: new,ModBlocks.FIRSTBLOCK).build(null)
             .setRegistryName("firstblock"));
         }
 
         @SubscribeEvent
+        //Registers the container for the block
         public static void onContainerRegistry(final RegistryEvent.Register<ContainerType<?>> event){
             event.getRegistry().register(IForgeContainerType.create((windowId, inv, data) -> {
                 BlockPos pos = data.readBlockPos();
