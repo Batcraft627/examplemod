@@ -41,11 +41,14 @@ public class FirstBlock extends Block {
 
     @Nullable
     @Override
+    //This makes the block a Tile Entity
     public TileEntity createTileEntity (BlockState state, IBlockReader world){
         return new FirstBlockTile();
     }
 
     @Override
+    //This will change the way the block is facing depending on where the player
+    //is stood
     public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack stack){
 
         if(entity !=null){
@@ -65,6 +68,7 @@ public class FirstBlock extends Block {
     }
 
     @Override
+    //This brings up the GUI when a player right clicks the block
     public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
        if(!world.isRemote){
            TileEntity tileEntity = world.getTileEntity(pos);
